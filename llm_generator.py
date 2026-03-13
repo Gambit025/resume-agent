@@ -37,6 +37,8 @@ def extract_precise_style(template_pdf: str) -> dict:
                 if not span["text"].strip():
                     continue
                 size = span["size"] or 9.0
+                if size < 4:          # 过滤隐藏/装饰性极小字符
+                    continue
                 color = span["color"] if span["color"] is not None else 0
                 spans_data.append({
                     "text": span["text"],
@@ -152,11 +154,22 @@ def extract_precise_style(template_pdf: str) -> dict:
         contact_center_x = (cl["bbox"][0] + cl["bbox"][2]) / 2
         contact_centered = abs(contact_center_x - pw / 2) < 50
 
-    # --- 分割线 ---
+    # --- 分割线 & 彩色背景检测 ---
     drawings = page.get_drawings()
     has_divider = len(drawings) > 0
     divider_width = 1.0
     divider_color = "#1a1a1a"
+    section_title_bg = None   # 章节标题背景色（如蓝色背景+白字模板）
+
+    for d in drawings:
+        # 收集填充色中的彩色（非黑白）
+        fill = d.get("fill")
+        if fill and isinstance(fill, tuple) and len(fill) == 3:
+            r, g, b = [int(v * 255) for v in fill]
+            hex_fill = f"#{r:02x}{g:02x}{b:02x}"
+            if hex_fill not in ("#ffffff", "#000000", "#1a1a1a", "#1b1b1b") and section_title_bg is None:
+                section_title_bg = hex_fill
+
     if has_divider:
         d = drawings[0]
         divider_width = round(d.get("width") or 1.0, 1)
@@ -203,6 +216,7 @@ def extract_precise_style(template_pdf: str) -> dict:
         "has_divider": has_divider,
         "divider_width": divider_width,
         "divider_color": divider_color,
+        "section_title_bg": section_title_bg,
         "date_right_aligned": date_right_aligned,
     }
 
@@ -220,8 +234,20 @@ def _default_style():
         "body_line_height": 1.4, "bold_color": "#1a1a1a",
         "bullet_char": "◆", "bullet_indent": 9.0,
         "has_divider": True, "divider_width": 1.5, "divider_color": "#1a1a1a",
+        "section_title_bg": None,
         "date_right_aligned": True,
     }
+
+
+def _section_title_style(s: dict) -> str:
+    if s.get("section_title_bg"):
+        bg = s["section_title_bg"].lstrip("#")
+        r, g, b = int(bg[0:2], 16), int(bg[2:4], 16), int(bg[4:6], 16)
+        brightness = (r * 299 + g * 587 + b * 114) / 1000
+        text_color = "#ffffff" if brightness < 150 else "#1a1a1a"
+        return f"background: {s['section_title_bg']}; color: {text_color}; padding: 3pt 8pt;"
+    border = f"border-bottom: {s['divider_width']}pt solid {s['divider_color']};" if s["has_divider"] else ""
+    return f"color: {s['bold_color']}; padding-bottom: 3pt; {border}"
 
 
 def generate_css(style: dict) -> str:
@@ -270,11 +296,9 @@ body {{
   font-family: {section_ff};
   font-size: {s['section_title_size']}pt;
   font-weight: 700;
-  color: {s['bold_color']};
   margin: 0;
-  padding-bottom: 3pt;
-  {'border-bottom: ' + str(s['divider_width']) + 'pt solid ' + s['divider_color'] + ';' if s['has_divider'] else ''}
   margin-bottom: 6pt;
+  {_section_title_style(s)}
 }}
 
 .entry {{
