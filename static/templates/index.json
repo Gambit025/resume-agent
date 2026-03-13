@@ -22,8 +22,8 @@
   },
   {
     "id": "bold",
-    "name": "粗犷商务",
-    "desc": "对比强烈，视觉冲击力强",
+    "name": "蓝调商务",
+    "desc": "蓝色色块标题，清爽有层次",
     "pdf": "/templates/bold.pdf",
     "thumb": "/templates/bold.png"
   }
