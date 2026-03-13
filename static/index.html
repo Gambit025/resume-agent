@@ -962,8 +962,8 @@ async function generate() {
 
   try {
     const resp = await fetch(url, { method: 'POST', body: fd });
-    const data = await resp.json();
-    if (!resp.ok) throw new Error(data.error || '未知错误');
+    const data = await resp.json().catch(() => ({}));
+    if (!resp.ok) throw new Error(data.error || `服务器错误 ${resp.status}`);
 
     currentJobId = data.job_id;
     stopProgress(true);
