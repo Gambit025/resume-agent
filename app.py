@@ -53,6 +53,41 @@ def generate():
         return jsonify({"error": f"处理失败：{str(e)}"}), 500
 
 
+@app.route("/api/templates")
+def list_templates():
+    import json
+    index_path = os.path.join(os.path.dirname(__file__), "static", "templates", "index.json")
+    with open(index_path, encoding="utf-8") as f:
+        return jsonify(json.load(f))
+
+
+@app.route("/api/generate/template/<template_id>", methods=["POST"])
+def generate_with_builtin(template_id):
+    resume_file = request.files.get("resume")
+    if not resume_file:
+        return jsonify({"error": "请上传简历文件"}), 400
+    if not resume_file.filename.lower().endswith(".pdf"):
+        return jsonify({"error": "仅支持 PDF 格式"}), 400
+
+    template_path = os.path.join(os.path.dirname(__file__), "static", "templates", f"{template_id}.pdf")
+    if not os.path.exists(template_path):
+        return jsonify({"error": "模板不存在"}), 404
+
+    job_id = str(uuid.uuid4())[:8]
+    job_dir = os.path.join(UPLOAD_DIR, job_id)
+    os.makedirs(job_dir, exist_ok=True)
+    resume_path = os.path.join(job_dir, "resume.pdf")
+
+    try:
+        resume_file.save(resume_path)
+        generate_resume(resume_path, template_path, job_dir)
+        return jsonify({"success": True, "job_id": job_id})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": f"处理失败：{str(e)}"}), 500
+
+
 @app.route("/api/download/<job_id>")
 def download(job_id):
     output_path = os.path.join(UPLOAD_DIR, job_id, "output.pdf")

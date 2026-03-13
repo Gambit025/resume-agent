@@ -4,4 +4,5 @@ __pycache__/
 uploads/
 llm_test_output/
 *.pdf
+!static/templates/*.pdf
 .env

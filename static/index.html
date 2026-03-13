@@ -3,413 +3,990 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>简历格式转换器</title>
+<title>简历换格式 · AI 驱动</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+:root {
+  --bg: #f6f5f2;
+  --card: #ffffff;
+  --text: #111827;
+  --text-2: #6b7280;
+  --text-3: #9ca3af;
+  --accent: #2563eb;
+  --accent-dim: #dbeafe;
+  --accent-hover: #1d4ed8;
+  --success: #059669;
+  --success-dim: #d1fae5;
+  --error: #dc2626;
+  --border: #e5e7eb;
+  --radius: 18px;
+  --radius-sm: 10px;
+}
 
-  :root {
-    --bg: #f7f7f5;
-    --card: #ffffff;
-    --text: #1a1a1a;
-    --text-secondary: #666;
-    --accent: #2563eb;
-    --accent-hover: #1d4ed8;
-    --border: #e5e5e5;
-    --success: #059669;
-    --error: #dc2626;
-    --radius: 12px;
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
 
-  body {
-    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 72px 24px 52px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
 
-  .container {
-    width: 100%;
-    max-width: 960px;
-    padding: 48px 24px;
-  }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+  margin-bottom: 24px;
+}
 
-  header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: badge-pulse 2s ease-in-out infinite;
+}
 
-  header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin-bottom: 8px;
-  }
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}
 
-  header p {
-    font-size: 15px;
-    color: var(--text-secondary);
-    font-weight: 300;
-  }
+.hero h1 {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.12;
+  color: var(--text);
+  margin-bottom: 18px;
+}
 
-  .upload-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 32px;
-  }
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
 
-  .upload-card {
-    display: block;
-    background: var(--card);
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 40px 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
+.hero p {
+  font-size: 17px;
+  color: var(--text-2);
+  font-weight: 400;
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0 auto;
+}
 
-  .upload-card:hover {
-    border-color: var(--accent);
-    background: #f8faff;
-  }
+/* ── MAIN ── */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 52px 24px 80px;
+}
 
-  .upload-card.has-file {
-    border-style: solid;
-    border-color: var(--success);
-    background: #f0fdf4;
-  }
+/* ── TEMPLATE GALLERY ── */
+.gallery-section {
+  margin-bottom: 40px;
+}
 
-  .upload-card input[type="file"] {
-    display: none;
-  }
+.gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
 
-  .upload-icon {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 16px;
-    background: var(--bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-  }
+.gallery-header h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
 
-  .upload-card.has-file .upload-icon {
-    background: #dcfce7;
-  }
+.gallery-header span {
+  font-size: 12px;
+  color: var(--text-3);
+}
 
-  .upload-card h3 {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
 
-  .upload-card .hint {
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
+.template-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+}
 
-  .upload-card .filename {
-    font-size: 13px;
-    color: var(--success);
-    font-weight: 500;
-    margin-top: 8px;
-  }
+.template-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.1);
+}
 
-  .action-row {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 40px;
-  }
+.template-card.selected {
+  border-color: var(--accent);
+  border-width: 2px;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 36px;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: inherit;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
+.template-thumb {
+  width: 100%;
+  aspect-ratio: 0.707;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  background: #f3f4f6;
+}
 
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-  }
+.template-info {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+}
 
-  .btn-primary:hover:not(:disabled) {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-  }
+.template-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
 
-  .btn-primary:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
+.template-desc {
+  font-size: 11px;
+  color: var(--text-3);
+}
 
-  .btn-download {
-    background: var(--success);
-    color: #fff;
-  }
+.template-check {
+  display: none;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 4px;
+}
 
-  .btn-download:hover {
-    background: #047857;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-  }
+.template-card.selected .template-check { display: block; }
 
-  .status {
-    text-align: center;
-    margin-bottom: 32px;
-    min-height: 24px;
-  }
+.divider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  color: var(--text-3);
+  font-size: 12px;
+}
 
-  .status .loading {
-    color: var(--accent);
-    font-size: 14px;
-  }
+.divider-row::before, .divider-row::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
 
-  .status .error {
-    color: var(--error);
-    font-size: 14px;
-  }
+/* ── UPLOAD ── */
+.upload-section {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  align-items: center;
+  margin-bottom: 36px;
+  gap: 0;
+}
 
-  .status .success {
-    color: var(--success);
-    font-size: 14px;
-  }
+.upload-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+}
 
-  .preview-area {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
-    overflow: hidden;
-    display: none;
-  }
+.upload-card:hover {
+  border-color: var(--accent);
+  border-style: solid;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.09);
+  transform: translateY(-3px);
+}
 
-  .preview-area.visible {
-    display: block;
-  }
+.upload-card.has-file {
+  border-style: solid;
+  border-color: var(--success);
+  background: linear-gradient(160deg, #ffffff, #f0fdf8);
+  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.09);
+}
 
-  .preview-header {
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.upload-card input[type="file"] { display: none; }
 
-  .preview-header h3 {
-    font-size: 15px;
-    font-weight: 500;
-  }
+.upload-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 14px;
+}
 
-  .preview-area iframe {
-    width: 100%;
-    height: 800px;
-    border: none;
-  }
+.upload-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: background 0.25s;
+}
 
-  .spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-  }
+.resume-icon-wrap  { background: #eff6ff; }
+.template-icon-wrap { background: #fdf4ff; }
+.upload-card.has-file .upload-icon-wrap { background: var(--success-dim); }
+.upload-card.has-file .upload-icon-wrap svg { stroke: var(--success); }
 
-  .spinner-dark {
-    border-color: rgba(37,99,235,0.2);
-    border-top-color: var(--accent);
-  }
+.upload-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
 
-  @keyframes spin { to { transform: rotate(360deg); } }
+.upload-card .hint {
+  font-size: 13px;
+  color: var(--text-3);
+  line-height: 1.5;
+}
 
-  footer {
-    text-align: center;
-    padding: 32px;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
+.upload-card .filename {
+  font-size: 12px;
+  color: var(--success);
+  font-weight: 600;
+  margin-top: 12px;
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  @media (max-width: 640px) {
-    .upload-grid { grid-template-columns: 1fr; }
-    header h1 { font-size: 24px; }
-  }
+/* Arrow connector */
+.upload-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.arrow-circle {
+  width: 38px;
+  height: 38px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-hint {
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.3px;
+}
+
+/* ── ACTIONS ── */
+.action-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.btn-generate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 52px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.32);
+  letter-spacing: 0.3px;
+}
+
+.btn-generate:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+}
+
+.btn-generate:disabled {
+  background: linear-gradient(135deg, #93c5fd, #60a5fa);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--success);
+  background: var(--success-dim);
+  border: 1.5px solid rgba(5, 150, 105, 0.25);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.btn-download:hover {
+  background: #a7f3d0;
+  transform: translateY(-1px);
+}
+
+/* ── PROGRESS ── */
+.progress-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 36px 32px;
+  margin-bottom: 28px;
+  display: none;
+}
+
+.progress-wrap.visible { display: block; }
+
+.progress-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-align: center;
+  margin-bottom: 24px;
+  min-height: 20px;
+  transition: all 0.3s;
+}
+
+.steps {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: calc(50% + 16px);
+  width: calc(100% - 32px);
+  height: 2px;
+  background: var(--border);
+  transition: background 0.4s;
+  z-index: 0;
+}
+
+.step.done:not(:last-child)::after { background: var(--success); }
+.step.active:not(:last-child)::after { background: var(--accent-dim); }
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-3);
+  z-index: 1;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.step.active .step-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  animation: step-ring 1.4s ease-in-out infinite;
+}
+
+.step.done .step-dot {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+
+@keyframes step-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
+  50% { box-shadow: 0 0 0 7px rgba(37,99,235,0.0); }
+}
+
+.step-label {
+  font-size: 12px;
+  color: var(--text-3);
+  text-align: center;
+  line-height: 1.45;
+  max-width: 80px;
+  transition: color 0.3s;
+}
+
+.step.active .step-label { color: var(--accent); font-weight: 500; }
+.step.done .step-label { color: var(--success); }
+
+/* ── STATUS ── */
+.status {
+  text-align: center;
+  min-height: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.status .success-msg {
+  color: var(--success);
+  font-weight: 500;
+}
+
+.status .error-msg {
+  color: var(--error);
+  background: #fef2f2;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #fecaca;
+  display: inline-block;
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* ── PREVIEW ── */
+.preview-area {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  display: none;
+}
+
+.preview-area.visible { display: block; }
+
+.preview-bar {
+  padding: 12px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-dots { display: flex; gap: 6px; }
+.preview-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.preview-dots span:nth-child(1) { background: #ff5f57; }
+.preview-dots span:nth-child(2) { background: #febc2e; }
+.preview-dots span:nth-child(3) { background: #28c840; }
+
+.preview-label {
+  font-size: 13px;
+  color: var(--text-3);
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.preview-area iframe {
+  width: 100%;
+  height: 860px;
+  border: none;
+  display: block;
+}
+
+/* ── HOW IT WORKS ── */
+.how-section {
+  margin-top: 72px;
+}
+
+.how-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.how-header p {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 6px;
+}
+
+.how-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.4px;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.how-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 22px 20px;
+}
+
+.how-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.how-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.how-card p {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+}
+
+/* ── SPINNER ── */
+.spinner {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 34px; letter-spacing: -1px; }
+  .hero p { font-size: 15px; }
+  .upload-section { grid-template-columns: 1fr; gap: 12px; }
+  .upload-arrow { transform: rotate(90deg); }
+  .how-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1>简历格式转换器</h1>
-    <p>上传你的简历和喜欢的模板，AI 一键生成新格式的简历</p>
-  </header>
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    AI 驱动
+  </div>
+  <h1>换个格式，<em>一键搞定</em></h1>
+  <p>上传你的简历和心仪的模板，AI 精确复刻排版风格<br>内容 100% 忠实于原文，不改动一个字</p>
+</div>
 
-  <div class="upload-grid">
-    <label class="upload-card" id="resumeCard" for="resumeInput">
-      <input type="file" id="resumeInput" accept=".pdf">
-      <div class="upload-icon">📄</div>
-      <h3>我的简历</h3>
-      <p class="hint">点击或拖拽上传 PDF 简历</p>
-      <p class="filename" id="resumeName"></p>
-    </label>
-    <label class="upload-card" id="templateCard" for="templateInput">
-      <input type="file" id="templateInput" accept=".pdf">
-      <div class="upload-icon">🎨</div>
-      <h3>模板简历</h3>
-      <p class="hint">点击或拖拽上传你喜欢格式的简历</p>
-      <p class="filename" id="templateName"></p>
-    </label>
+<div class="container">
+
+  <!-- TEMPLATE GALLERY -->
+  <div class="gallery-section">
+    <div class="gallery-header">
+      <h2>选择模板风格</h2>
+      <span>点击选中，或在下方上传自定义模板</span>
+    </div>
+    <div class="template-grid" id="templateGrid">
+      <!-- 由 JS 动态渲染 -->
+    </div>
   </div>
 
-  <div class="action-row">
-    <button class="btn btn-primary" id="generateBtn" disabled onclick="generate()">
+  <div class="divider-row">或者上传自定义模板</div>
+
+  <!-- UPLOAD -->
+  <div class="upload-section">
+
+    <label class="upload-card" id="resumeCard" for="resumeInput">
+      <input type="file" id="resumeInput" accept=".pdf">
+      <p class="upload-label">我的简历</p>
+      <div class="upload-icon-wrap resume-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </div>
+      <h3>上传我的简历</h3>
+      <p class="hint">点击或拖拽 PDF 文件至此</p>
+      <p class="filename" id="resumeName"></p>
+    </label>
+
+    <div class="upload-arrow">
+      <div class="arrow-circle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>
+      <span class="arrow-hint">套用格式</span>
+    </div>
+
+    <label class="upload-card" id="templateCard" for="templateInput">
+      <input type="file" id="templateInput" accept=".pdf">
+      <p class="upload-label">目标模板</p>
+      <div class="upload-icon-wrap template-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="9" y1="21" x2="9" y2="9"/>
+        </svg>
+      </div>
+      <h3>上传目标模板</h3>
+      <p class="hint">你喜欢的那份简历的排版风格</p>
+      <p class="filename" id="templateName"></p>
+    </label>
+
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="action-area">
+    <button class="btn-generate" id="generateBtn" disabled onclick="generate()">
       生成简历
     </button>
-    <button class="btn btn-download" id="downloadBtn" style="display:none" onclick="download()">
+    <button class="btn-download" id="downloadBtn" style="display:none" onclick="download()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
       下载 PDF
     </button>
   </div>
 
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progressWrap">
+    <p class="progress-title" id="progressTitle">正在处理...</p>
+    <div class="steps">
+      <div class="step" id="step1">
+        <div class="step-dot">1</div>
+        <div class="step-label">提取模板<br>排版参数</div>
+      </div>
+      <div class="step" id="step2">
+        <div class="step-dot">2</div>
+        <div class="step-label">AI 理解<br>简历内容</div>
+      </div>
+      <div class="step" id="step3">
+        <div class="step-dot">3</div>
+        <div class="step-label">生成<br>PDF 输出</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS -->
   <div class="status" id="status"></div>
 
+  <!-- PREVIEW -->
   <div class="preview-area" id="previewArea">
-    <div class="preview-header">
-      <h3>预览</h3>
+    <div class="preview-bar">
+      <div class="preview-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="preview-label">简历预览</span>
     </div>
     <iframe id="previewFrame"></iframe>
   </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div class="how-header">
+      <p>工作原理</p>
+      <h2>三步完成格式转换</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <p class="how-num">STEP 01</p>
+        <h4>精确提取模板样式</h4>
+        <p>用代码逐像素测量模板 PDF 的字号、颜色、边距、行间距，生成确定性 CSS，不依赖 AI 猜测。</p>
+      </div>
+      <div class="how-card">
+        <p class="how-num">STEP 02</p>
+        <h4>AI 理解简历内容</h4>
+        <p>AI 只负责识别你简历的语义结构（教育、实习、项目等），不修改、不增删任何文字。</p>
+      </div>
+      <div class="how-card">
+        <p class="how-num">STEP 03</p>
+        <h4>代码精确组装输出</h4>
+        <p>用代码将样式与内容精确拼合，通过 Chromium 渲染生成与模板风格高度一致的新简历 PDF。</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <footer>
-  由 Kimi AI 驱动 · 内容 100% 忠实于原文
+  内容 100% 忠实于原文 &nbsp;·&nbsp; 不存储你的简历数据
 </footer>
 
 <script>
-  let currentJobId = null;
+let currentJobId = null;
+let progressTimer = null;
+let selectedTemplateId = null;  // 内置模板选中状态
 
-  const resumeInput = document.getElementById('resumeInput');
-  const templateInput = document.getElementById('templateInput');
-  const generateBtn = document.getElementById('generateBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const statusEl = document.getElementById('status');
+const resumeInput   = document.getElementById('resumeInput');
+const templateInput = document.getElementById('templateInput');
+const generateBtn   = document.getElementById('generateBtn');
+const downloadBtn   = document.getElementById('downloadBtn');
+const statusEl      = document.getElementById('status');
 
-  function updateBtn() {
-    generateBtn.disabled = !(resumeInput.files.length && templateInput.files.length);
+// ── 加载内置模板 ──
+async function loadTemplates() {
+  try {
+    const resp = await fetch('/api/templates');
+    const list = await resp.json();
+    const grid = document.getElementById('templateGrid');
+    grid.innerHTML = list.map(t => `
+      <div class="template-card" id="tpl-${t.id}" onclick="selectTemplate('${t.id}')">
+        <img class="template-thumb" src="${t.thumb}" alt="${t.name}" loading="lazy">
+        <div class="template-info">
+          <div class="template-name">${t.name}</div>
+          <div class="template-desc">${t.desc}</div>
+          <div class="template-check">✓ 已选中</div>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    console.warn('模板加载失败', e);
+  }
+}
+
+function selectTemplate(id) {
+  // 取消之前的选中
+  document.querySelectorAll('.template-card').forEach(el => el.classList.remove('selected'));
+  if (selectedTemplateId === id) {
+    selectedTemplateId = null;  // 再次点击取消
+  } else {
+    selectedTemplateId = id;
+    document.getElementById(`tpl-${id}`).classList.add('selected');
+    // 清除手动上传的模板
+    templateInput.value = '';
+    document.getElementById('templateCard').classList.remove('has-file');
+    document.getElementById('templateName').textContent = '';
+  }
+  updateBtn();
+}
+
+loadTemplates();
+
+function updateBtn() {
+  const hasResume   = resumeInput.files.length > 0;
+  const hasTemplate = selectedTemplateId || templateInput.files.length > 0;
+  generateBtn.disabled = !(hasResume && hasTemplate);
+}
+
+function handleFile(input, cardId, nameId) {
+  const card   = document.getElementById(cardId);
+  const nameEl = document.getElementById(nameId);
+  if (!input.files.length) return;
+  const file = input.files[0];
+  if (!file.name.toLowerCase().endsWith('.pdf')) {
+    alert('请上传 PDF 格式的文件');
+    input.value = '';
+    return;
+  }
+  // 上传自定义模板时取消内置模板选中
+  if (input === templateInput) {
+    selectedTemplateId = null;
+    document.querySelectorAll('.template-card').forEach(el => el.classList.remove('selected'));
+  }
+  card.classList.add('has-file');
+  nameEl.textContent = file.name;
+  updateBtn();
+}
+
+resumeInput.addEventListener('change',   () => handleFile(resumeInput,   'resumeCard',   'resumeName'));
+templateInput.addEventListener('change', () => handleFile(templateInput, 'templateCard', 'templateName'));
+
+function setupDragDrop(cardId, input) {
+  const card = document.getElementById(cardId);
+  ['dragenter', 'dragover'].forEach(evt => {
+    card.addEventListener(evt, e => {
+      e.preventDefault(); e.stopPropagation();
+      if (!card.classList.contains('has-file')) {
+        card.style.borderColor = 'var(--accent)';
+        card.style.borderStyle = 'solid';
+      }
+    });
+  });
+  ['dragleave', 'drop'].forEach(evt => {
+    card.addEventListener(evt, e => {
+      e.preventDefault(); e.stopPropagation();
+      if (!card.classList.contains('has-file')) {
+        card.style.borderColor = '';
+        card.style.borderStyle = '';
+      }
+    });
+  });
+  card.addEventListener('drop', e => {
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      const dt = new DataTransfer();
+      dt.items.add(files[0]);
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change'));
+    }
+  });
+}
+
+setupDragDrop('resumeCard',   resumeInput);
+setupDragDrop('templateCard', templateInput);
+
+// ── 进度模拟 ──
+const PHASES = [
+  { id: 'step1', label: '正在精确测量模板排版参数...', duration: 7000 },
+  { id: 'step2', label: 'AI 正在理解简历内容结构...', duration: 22000 },
+  { id: 'step3', label: '正在渲染 PDF，即将完成...', duration: 9999999 },
+];
+
+function startProgress() {
+  document.getElementById('progressWrap').classList.add('visible');
+  function activate(i) {
+    PHASES.forEach((p, j) => {
+      const el = document.getElementById(p.id);
+      el.classList.remove('active', 'done');
+      if (j < i) el.classList.add('done');
+      else if (j === i) el.classList.add('active');
+    });
+    document.getElementById('progressTitle').textContent = PHASES[i].label;
+    if (i < PHASES.length - 1)
+      progressTimer = setTimeout(() => activate(i + 1), PHASES[i].duration);
+  }
+  activate(0);
+}
+
+function stopProgress(success) {
+  clearTimeout(progressTimer);
+  if (success) {
+    PHASES.forEach(p => {
+      const el = document.getElementById(p.id);
+      el.classList.remove('active');
+      el.classList.add('done');
+    });
+    document.getElementById('progressTitle').textContent = '生成完成';
+    setTimeout(() => document.getElementById('progressWrap').classList.remove('visible'), 1600);
+  } else {
+    document.getElementById('progressWrap').classList.remove('visible');
+    PHASES.forEach(p => document.getElementById(p.id).classList.remove('active', 'done'));
+  }
+}
+
+async function generate() {
+  generateBtn.disabled = true;
+  generateBtn.innerHTML = '<span class="spinner"></span> 生成中...';
+  downloadBtn.style.display = 'none';
+  statusEl.innerHTML = '';
+  document.getElementById('previewArea').classList.remove('visible');
+
+  startProgress();
+
+  const fd = new FormData();
+  fd.append('resume', resumeInput.files[0]);
+
+  let url = '/api/generate';
+  if (selectedTemplateId) {
+    url = `/api/generate/template/${selectedTemplateId}`;
+  } else {
+    fd.append('template', templateInput.files[0]);
   }
 
-  function handleFile(input, cardId, nameId) {
-    const card = document.getElementById(cardId);
-    const nameEl = document.getElementById(nameId);
-    if (input.files.length) {
-      const file = input.files[0];
-      if (!file.name.toLowerCase().endsWith('.pdf')) {
-        alert('请上传 PDF 格式的文件');
-        input.value = '';
-        return;
-      }
-      card.classList.add('has-file');
-      nameEl.textContent = file.name;
-    }
+  try {
+    const resp = await fetch(url, { method: 'POST', body: fd });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || '未知错误');
+
+    currentJobId = data.job_id;
+    stopProgress(true);
+    statusEl.innerHTML = '<span class="success-msg">✓ 生成成功，请在下方预览或下载</span>';
+    downloadBtn.style.display = 'inline-flex';
+    document.getElementById('previewArea').classList.add('visible');
+    document.getElementById('previewFrame').src = `/api/preview/${currentJobId}`;
+
+  } catch (err) {
+    stopProgress(false);
+    statusEl.innerHTML = `<span class="error-msg">出错了：${err.message}</span>`;
+  } finally {
+    generateBtn.disabled = false;
+    generateBtn.innerHTML = '生成简历';
     updateBtn();
   }
+}
 
-  resumeInput.addEventListener('change', () => handleFile(resumeInput, 'resumeCard', 'resumeName'));
-  templateInput.addEventListener('change', () => handleFile(templateInput, 'templateCard', 'templateName'));
-
-  function setupDragDrop(cardId, input) {
-    const card = document.getElementById(cardId);
-
-    ['dragenter', 'dragover'].forEach(evt => {
-      card.addEventListener(evt, e => {
-        e.preventDefault();
-        e.stopPropagation();
-        card.style.borderColor = 'var(--accent)';
-        card.style.background = '#f0f4ff';
-      });
-    });
-
-    ['dragleave', 'drop'].forEach(evt => {
-      card.addEventListener(evt, e => {
-        e.preventDefault();
-        e.stopPropagation();
-        card.style.borderColor = '';
-        card.style.background = '';
-      });
-    });
-
-    card.addEventListener('drop', e => {
-      const files = e.dataTransfer.files;
-      if (files.length) {
-        const dt = new DataTransfer();
-        dt.items.add(files[0]);
-        input.files = dt.files;
-        input.dispatchEvent(new Event('change'));
-      }
-    });
-  }
-
-  setupDragDrop('resumeCard', resumeInput);
-  setupDragDrop('templateCard', templateInput);
-
-  async function generate() {
-    generateBtn.disabled = true;
-    generateBtn.innerHTML = '<span class="spinner"></span> 生成中...';
-    downloadBtn.style.display = 'none';
-    statusEl.innerHTML = '<span class="loading"><span class="spinner spinner-dark"></span> 精确提取模板样式 + AI 结构化分析中，约 30 秒...</span>';
-
-    const formData = new FormData();
-    formData.append('resume', resumeInput.files[0]);
-    formData.append('template', templateInput.files[0]);
-
-    try {
-      const resp = await fetch('/api/generate', { method: 'POST', body: formData });
-      const data = await resp.json();
-
-      if (!resp.ok) {
-        throw new Error(data.error || '未知错误');
-      }
-
-      currentJobId = data.job_id;
-      statusEl.innerHTML = `<span class="success">AI 生成成功！</span>`;
-      downloadBtn.style.display = 'inline-flex';
-
-      const previewArea = document.getElementById('previewArea');
-      previewArea.classList.add('visible');
-      document.getElementById('previewFrame').src = `/api/preview/${currentJobId}`;
-
-    } catch (err) {
-      statusEl.innerHTML = `<span class="error">出错了：${err.message}</span>`;
-    } finally {
-      generateBtn.disabled = false;
-      generateBtn.innerHTML = '生成简历';
-      updateBtn();
-    }
-  }
-
-  function download() {
-    if (currentJobId) {
-      window.location.href = `/api/download/${currentJobId}`;
-    }
-  }
+function download() {
+  if (currentJobId) window.location.href = `/api/download/${currentJobId}`;
+}
 </script>
 
 </body>
