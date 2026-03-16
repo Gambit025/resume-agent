@@ -8,9 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #000212;
-  --card: rgba(255,255,255,0.03);
-  --border: rgba(255,255,255,0.08);
+  --bg: #000000;
+  --card: #0a0a0a;
+  --border: rgba(255,255,255,0.1);
   --accent: #5e6ad2;
   --accent-glow: rgba(94,106,210,0.15);
   --text: #ffffff;
@@ -49,13 +49,14 @@ body {
   opacity: 0.6;
 }
 
-.bg-dots {
+.grid-bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.12;
-  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -64,17 +65,17 @@ nav {
   position: fixed;
   top: 0; left: 0; width: 100%;
   z-index: 50;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  background: rgba(0,2,18,0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .nav-inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  height: 56px;
+  height: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -137,11 +138,11 @@ main { position: relative; z-index: 10; }
 }
 
 .linear-gradient-text {
-  background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.4) 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #c8c8c8 40%, rgba(255,255,255,0.45) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7));
 }
 
 .hero h1 {
@@ -223,7 +224,7 @@ main { position: relative; z-index: 10; }
   transition: background 0.4s;
 }
 
-.bento:hover { background: rgba(255,255,255,0.05); }
+.bento:hover { background: #0f0f0f; }
 
 /* ── BUILDER SECTION ── */
 .builder-section {
@@ -668,7 +669,7 @@ main { position: relative; z-index: 10; }
   gap: 16px;
 }
 
-.bento-card:hover { background: rgba(255,255,255,0.05); }
+.bento-card:hover { background: #0f0f0f; }
 
 .bento-card.wide { grid-column: span 2; }
 @media (max-width: 900px) { .bento-card.wide { grid-column: span 1; } }
@@ -838,7 +839,7 @@ footer {
 
 <!-- BG -->
 <div class="bg-glow"></div>
-<div class="bg-dots"></div>
+<div class="grid-bg"></div>
 
 <!-- NAV -->
 <nav>
