@@ -431,7 +431,11 @@ def structure_resume_via_llm(resume_text: str) -> dict:
             if lines and lines[-1].strip() == "```":
                 lines = lines[:-1]
             raw = "\n".join(lines)
-        return json.loads(raw)
+        try:
+            return json.loads(raw)
+        except json.JSONDecodeError:
+            from json_repair import repair_json
+            return json.loads(repair_json(raw))
 
     user_msg = f"请分析以下简历的结构：\n\n{resume_text}"
     raw = _call([{"role": "user", "content": user_msg}])
