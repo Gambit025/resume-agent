@@ -8,11 +8,10 @@ import os
 import json
 import tempfile
 import fitz
-from openai import OpenAI
+import anthropic
 
-KIMI_API_KEY = os.environ.get("KIMI_API_KEY", "")
-KIMI_BASE_URL = "https://api.moonshot.cn/v1"
-TEXT_MODEL = "kimi-k2-turbo-preview"
+ANTHROPIC_API_KEY = os.environ.get("API", "")
+TEXT_MODEL = "claude-sonnet-4-6"
 
 
 # ═══════════════════════════════════════════════════════════
@@ -379,7 +378,7 @@ def extract_text(pdf_path: str) -> str:
 
 def structure_resume_via_llm(resume_text: str) -> dict:
     """LLM 只负责理解简历内容的语义结构，输出 JSON。"""
-    client = OpenAI(api_key=KIMI_API_KEY, base_url=KIMI_BASE_URL)
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     system_prompt = """你是一个简历结构分析专家。你的唯一任务是分析简历纯文字，输出结构化 JSON。
 
@@ -414,14 +413,15 @@ def structure_resume_via_llm(resume_text: str) -> dict:
 3. 如果一个条目没有列表项描述，items 为空数组
 4. 只输出 JSON，不要任何解释"""
 
-    resp = client.chat.completions.create(
-        model=TEXT_MODEL,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"请分析以下简历的结构：\n\n{resume_text}"},
-        ],
-        temperature=0.1,
-    )
+    def _call(messages, temperature=0.1):
+        resp = client.messages.create(
+            model=TEXT_MODEL,
+            max_tokens=4096,
+            system=system_prompt,
+            messages=messages,
+            temperature=temperature,
+        )
+        return resp.content[0].text
 
     def _parse(raw: str) -> dict:
         raw = raw.strip()
@@ -433,22 +433,18 @@ def structure_resume_via_llm(resume_text: str) -> dict:
             raw = "\n".join(lines)
         return json.loads(raw)
 
-    raw = resp.choices[0].message.content
+    user_msg = f"请分析以下简历的结构：\n\n{resume_text}"
+    raw = _call([{"role": "user", "content": user_msg}])
     try:
         return _parse(raw)
     except (json.JSONDecodeError, ValueError):
         print("  JSON 解析失败，重试一次...")
-        resp2 = client.chat.completions.create(
-            model=TEXT_MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"请分析以下简历的结构：\n\n{resume_text}"},
-                {"role": "assistant", "content": raw},
-                {"role": "user", "content": "输出格式不正确，请只输出合法的 JSON，不要任何 markdown 包裹或额外文字。"},
-            ],
-            temperature=0.0,
-        )
-        return _parse(resp2.choices[0].message.content)
+        raw2 = _call([
+            {"role": "user", "content": user_msg},
+            {"role": "assistant", "content": raw},
+            {"role": "user", "content": "输出格式不正确，请只输出合法的 JSON，不要任何 markdown 包裹或额外文字。"},
+        ], temperature=0.0)
+        return _parse(raw2)
 
 
 # ═══════════════════════════════════════════════════════════
