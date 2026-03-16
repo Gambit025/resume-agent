@@ -272,6 +272,7 @@ body {{
   font-size: {s['body_size']}pt;
   color: {s['body_color']};
   line-height: {s['body_line_height']};
+  background: #ffffff;
 }}
 
 .name {{
@@ -455,26 +456,44 @@ def structure_resume_via_llm(resume_text: str) -> dict:
 # ═══════════════════════════════════════════════════════════
 
 def _font_style_tag() -> str:
-    """优先使用本地字体文件，降级到 Google Fonts CDN。"""
+    """优先使用本地字体文件（TrueType 正确嵌入），不回退到 CDN（CDN 会产生 Type3）。"""
     font_dir = os.path.join(os.path.dirname(__file__), "static", "fonts")
-    files = {
-        "NotoSansSC-Regular": os.path.join(font_dir, "NotoSansSC-Regular.otf"),
-        "NotoSansSC-Bold":    os.path.join(font_dir, "NotoSansSC-Bold.otf"),
-        "NotoSerifSC-Regular":os.path.join(font_dir, "NotoSerifSC-Regular.otf"),
-        "NotoSerifSC-Bold":   os.path.join(font_dir, "NotoSerifSC-Bold.otf"),
-    }
-    if all(os.path.exists(p) for p in files.values()):
-        def face(family, weight, path):
-            return (f'@font-face {{ font-family: "{family}"; font-weight: {weight}; '
-                    f'src: url("file://{path}") format("opentype"); }}')
-        return "<style>" + "\n".join([
-            face("Noto Sans SC",  400, files["NotoSansSC-Regular"]),
-            face("Noto Sans SC",  700, files["NotoSansSC-Bold"]),
-            face("Noto Serif SC", 400, files["NotoSerifSC-Regular"]),
-            face("Noto Serif SC", 700, files["NotoSerifSC-Bold"]),
-        ]) + "</style>"
-    # 降级：Google Fonts CDN
-    return '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">'
+
+    # 支持 TTF 和 OTF
+    def find_font(name_noext):
+        for ext in (".ttf", ".otf"):
+            p = os.path.join(font_dir, name_noext + ext)
+            if os.path.exists(p):
+                return p
+        return None
+
+    sans_r = find_font("NotoSansSC-Regular")
+    sans_b = find_font("NotoSansSC-Bold")
+    serif_r = find_font("NotoSerifSC-Regular")
+    serif_b = find_font("NotoSerifSC-Bold")
+
+    faces = []
+
+    def face(family, weight, path):
+        fmt = "opentype" if path.endswith(".otf") else "truetype"
+        return (f'@font-face {{ font-family: "{family}"; font-weight: {weight}; '
+                f'src: url("file://{path}") format("{fmt}"); }}')
+
+    if sans_r:
+        faces.append(face("Noto Sans SC", 400, sans_r))
+    if sans_b:
+        faces.append(face("Noto Sans SC", 700, sans_b))
+    if serif_r:
+        faces.append(face("Noto Serif SC", 400, serif_r))
+    if serif_b:
+        faces.append(face("Noto Serif SC", 700, serif_b))
+
+    if faces:
+        return "<style>" + "\n".join(faces) + "</style>"
+
+    # 不使用 CDN 回退（CDN 字体会产生 Type3，无法在 WPS 中编辑）
+    # 依赖系统已安装的字体（Linux 需提前 apt install fonts-noto-cjk）
+    return ""
 
 
 def assemble_html(css: str, content: dict) -> str:
@@ -485,7 +504,7 @@ def assemble_html(css: str, content: dict) -> str:
 
     parts = [
         '<!DOCTYPE html>',
-        '<html lang="zh-CN">',
+        '<html lang="zh-CN" style="background:#ffffff">',
         '<head>',
         '<meta charset="UTF-8">',
         _font_style_tag(),
