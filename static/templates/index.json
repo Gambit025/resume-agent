@@ -1,30 +1,30 @@
 [
   {
+    "id": "bold",
+    "name": "国际学术",
+    "desc": "左侧竖线层级，黑标区块，国际范",
+    "pdf": "/templates/bold.pdf",
+    "thumb": "/templates/bold.png"
+  },
+  {
     "id": "minimal",
-    "name": "极简黑白",
-    "desc": "简洁克制，适合技术岗",
+    "name": "哈佛标准",
+    "desc": "哈佛就业中心推荐，衬线经典",
     "pdf": "/templates/minimal.pdf",
     "thumb": "/templates/minimal.png"
   },
   {
     "id": "classic",
-    "name": "经典学术",
-    "desc": "衬线字体，传统专业风",
+    "name": "Jake's Resume",
+    "desc": "GitHub 3万星，硅谷 CS 必备",
     "pdf": "/templates/classic.pdf",
     "thumb": "/templates/classic.png"
   },
   {
     "id": "modern",
-    "name": "现代蓝调",
-    "desc": "蓝色点缀，清爽现代感",
+    "name": "咨询精英",
+    "desc": "McKinsey 偏好，左边距对齐",
     "pdf": "/templates/modern.pdf",
     "thumb": "/templates/modern.png"
-  },
-  {
-    "id": "bold",
-    "name": "粗犷商务",
-    "desc": "对比强烈，视觉冲击力强",
-    "pdf": "/templates/bold.pdf",
-    "thumb": "/templates/bold.png"
   }
 ]

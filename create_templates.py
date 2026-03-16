@@ -83,133 +83,11 @@ SAMPLE_CONTENT = {
 }
 
 TEMPLATES = [
-    {
-        "id": "minimal",
-        "name": "极简黑白",
-        "desc": "简洁克制，适合技术岗",
-        "css": """
-@page { size: A4; margin: 0; }
-body {
-  width: 595pt; margin: 0 auto;
-  padding: 0 0 28pt 0;
-  box-sizing: border-box;
-  font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 9pt; color: #2d2d2d; line-height: 1.5;
-}
-.header-block {
-  background: #111;
-  padding: 28pt 48pt 20pt 48pt;
-  margin-bottom: 6pt;
-}
-.name { font-size: 24pt; font-weight: 700; color: #fff; text-align: center; margin: 0 0 6pt; letter-spacing: 2pt; }
-.contact { font-size: 8.5pt; text-align: center; color: #aaa; }
-.body-wrap { padding: 0 48pt; }
-.section { margin-top: 14pt; }
-.section-title {
-  font-size: 8pt; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 2pt; color: #111;
-  display: flex; align-items: center; gap: 8pt;
-  margin-bottom: 7pt;
-}
-.section-title::after {
-  content: ''; flex: 1; height: 0.75pt; background: #ccc;
-}
-.entry { margin-top: 6pt; }
-.entry-header { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; font-size: 9.5pt; }
-.entry-header .date { font-weight: 400; font-size: 8pt; color: #888; white-space: nowrap; }
-.entry-subtitle { font-size: 8.5pt; color: #666; margin: 1.5pt 0 2pt; }
-.item-list { list-style: none; padding: 0; margin: 2pt 0 0; }
-.item-list li { padding-left: 12pt; text-indent: -7pt; margin-bottom: 1.5pt; }
-.item-list li::before { content: '—'; display: inline-block; width: 7pt; color: #bbb; font-size: 8pt; }
-"""
-    },
-    {
-        "id": "classic",
-        "name": "经典学术",
-        "desc": "衬线字体，传统专业风",
-        "css": """
-@page { size: A4; margin: 0; }
-body {
-  width: 595pt; margin: 0 auto;
-  padding: 0 0 28pt 0;
-  box-sizing: border-box;
-  font-family: 'Noto Serif SC', 'Georgia', serif;
-  font-size: 9.5pt; color: #1a1a1a; line-height: 1.55;
-}
-.header-block {
-  text-align: center;
-  padding: 30pt 50pt 16pt 50pt;
-  border-bottom: 3pt double #000;
-  margin-bottom: 4pt;
-}
-.name { font-size: 26pt; font-weight: 700; color: #000; margin: 0 0 8pt; letter-spacing: 3pt; }
-.contact { font-size: 8.5pt; color: #444; font-family: 'Noto Sans SC', sans-serif; line-height: 1.6; }
-.body-wrap { padding: 0 50pt; }
-.section { margin-top: 13pt; }
-.section-title {
-  font-size: 10.5pt; font-weight: 700; color: #000;
-  font-family: 'Noto Sans SC', sans-serif;
-  letter-spacing: 1pt;
-  border-bottom: 1pt solid #000;
-  padding-bottom: 2.5pt; margin-bottom: 6pt;
-  display: flex; align-items: center; gap: 6pt;
-}
-.section-title::before { content: '§'; font-size: 9pt; color: #666; font-family: serif; font-weight: 400; }
-.entry { margin-top: 6pt; }
-.entry-header { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; font-size: 10pt; font-family: 'Noto Sans SC', sans-serif; }
-.entry-header .date { font-weight: 400; font-size: 8.5pt; color: #555; white-space: nowrap; }
-.entry-subtitle { font-size: 9pt; font-style: italic; color: #444; margin: 1.5pt 0 2pt; }
-.item-list { list-style: none; padding: 0; margin: 2pt 0 0; }
-.item-list li { padding-left: 14pt; text-indent: -8pt; margin-bottom: 1.5pt; }
-.item-list li::before { content: '◆'; display: inline-block; width: 8pt; font-size: 4.5pt; color: #555; vertical-align: middle; }
-"""
-    },
-    {
-        "id": "modern",
-        "name": "现代蓝调",
-        "desc": "蓝色点缀，清爽现代感",
-        "css": """
-@page { size: A4; margin: 0; }
-body {
-  width: 595pt; margin: 0 auto;
-  padding: 0 0 28pt 0;
-  box-sizing: border-box;
-  font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 9pt; color: #334155; line-height: 1.5;
-}
-.header-block {
-  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-  padding: 26pt 44pt 20pt 44pt;
-  margin-bottom: 4pt;
-}
-.name { font-size: 26pt; font-weight: 700; color: #fff; text-align: left; margin: 0 0 6pt; letter-spacing: 0.5pt; }
-.contact { font-size: 8.5pt; text-align: left; color: #bfdbfe; }
-.body-wrap { padding: 0 44pt; }
-.section { margin-top: 14pt; }
-.section-title {
-  font-size: 9.5pt; font-weight: 700; color: #1e40af;
-  text-transform: uppercase; letter-spacing: 1.5pt;
-  display: flex; align-items: center; gap: 7pt;
-  margin-bottom: 7pt;
-}
-.section-title::after { content: ''; flex: 1; height: 1pt; background: linear-gradient(to right, #bfdbfe, transparent); }
-.entry { margin-top: 5pt; }
-.entry-header { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; font-size: 9.5pt; color: #0f172a; }
-.entry-header .date {
-  font-weight: 400; font-size: 8pt; color: #fff;
-  background: #3b82f6; padding: 0.5pt 5pt; border-radius: 2pt;
-  white-space: nowrap;
-}
-.entry-subtitle { font-size: 8.5pt; color: #475569; margin: 2pt 0 2pt; font-weight: 500; }
-.item-list { list-style: none; padding: 0; margin: 2pt 0 0; }
-.item-list li { padding-left: 12pt; text-indent: -7pt; margin-bottom: 1.5pt; }
-.item-list li::before { content: '▸'; display: inline-block; width: 7pt; color: #3b82f6; font-size: 7pt; }
-"""
-    },
+    # ── 你的设计：国际学术风 ──────────────────────────────────────
     {
         "id": "bold",
-        "name": "粗犷商务",
-        "desc": "对比强烈，视觉冲击力强",
+        "name": "国际学术",
+        "desc": "左侧竖线层级，黑标区块，国际范",
         "css": """
 @page { size: A4; margin: 0; }
 body {
@@ -238,6 +116,199 @@ body {
 .item-list li::before { content: '•'; display: inline-block; width: 7pt; font-size: 8pt; color: #1c1c1c; }
 """
     },
+
+    # ── Harvard OCS 标准格式 ─────────────────────────────────────
+    {
+        "id": "minimal",
+        "name": "哈佛标准",
+        "desc": "哈佛就业中心推荐，衬线经典",
+        "css": """
+@page { size: A4; margin: 0; }
+body {
+  width: 595pt; margin: 0 auto;
+  padding: 0 0 28pt 0;
+  box-sizing: border-box;
+  font-family: 'Noto Serif SC', Georgia, 'Times New Roman', serif;
+  font-size: 9.5pt; color: #000; line-height: 1.5;
+}
+.header-block {
+  text-align: center;
+  padding: 32pt 50pt 12pt 50pt;
+}
+.name {
+  font-size: 20pt; font-weight: 700; color: #000;
+  letter-spacing: 2.5pt; text-transform: uppercase;
+  margin: 0 0 6pt; font-family: 'Noto Serif SC', Georgia, serif;
+}
+.contact {
+  font-size: 8.5pt; color: #333;
+  font-family: 'Noto Sans SC', Arial, sans-serif;
+  letter-spacing: 0.3pt;
+}
+.header-rule {
+  margin: 10pt 50pt 0;
+  border: none; border-top: 1.5pt solid #000;
+}
+.body-wrap { padding: 0 50pt; }
+.section { margin-top: 11pt; }
+.section-title {
+  font-size: 9.5pt; font-weight: 700; color: #000;
+  font-family: 'Noto Sans SC', Arial, sans-serif;
+  text-transform: uppercase; letter-spacing: 1.5pt;
+  border-bottom: 0.75pt solid #000;
+  padding-bottom: 2pt; margin-bottom: 6pt;
+}
+.entry { margin-top: 5pt; }
+.entry-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-weight: 700; font-size: 9.5pt;
+  font-family: 'Noto Sans SC', Arial, sans-serif;
+}
+.entry-header .date {
+  font-weight: 400; font-size: 8.5pt; color: #333;
+  font-style: italic; white-space: nowrap;
+}
+.entry-subtitle {
+  font-size: 9pt; font-style: italic; color: #222;
+  margin: 1pt 0 2pt;
+}
+.item-list { list-style: none; padding: 0; margin: 2pt 0 0; }
+.item-list li {
+  padding-left: 14pt; text-indent: -8pt; margin-bottom: 1.5pt;
+  font-size: 9pt;
+}
+.item-list li::before {
+  content: '•'; display: inline-block; width: 8pt;
+  font-size: 9pt; color: #000;
+}
+"""
+    },
+
+    # ── Jake's Resume（硅谷 CS 神模板）─────────────────────────────
+    {
+        "id": "classic",
+        "name": "Jake's Resume",
+        "desc": "GitHub 3万星，硅谷 CS 必备",
+        "css": """
+@page { size: A4; margin: 0; }
+body {
+  width: 595pt; margin: 0 auto;
+  padding: 0 0 28pt 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9pt; color: #000; line-height: 1.45;
+}
+.header-block {
+  text-align: center;
+  padding: 28pt 44pt 10pt 44pt;
+}
+.name {
+  font-size: 24pt; font-weight: 700; color: #000;
+  letter-spacing: -0.5pt; margin: 0 0 5pt;
+}
+.contact {
+  font-size: 8pt; color: #000;
+  display: flex; justify-content: center; gap: 4pt;
+}
+.header-rule {
+  margin: 8pt 44pt 0;
+  border: none; border-top: 0.75pt solid #000;
+}
+.body-wrap { padding: 0 44pt; }
+.section { margin-top: 10pt; }
+.section-title {
+  font-size: 10pt; font-weight: 700; color: #000;
+  text-transform: uppercase; letter-spacing: 0.8pt;
+  border-bottom: 0.75pt solid #000;
+  padding-bottom: 1.5pt; margin-bottom: 5pt;
+}
+.entry { margin-top: 4pt; }
+.entry-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-weight: 700; font-size: 9.5pt; color: #000;
+}
+.entry-header .date {
+  font-weight: 400; font-size: 8.5pt; color: #333;
+  font-style: italic; white-space: nowrap;
+}
+.entry-subtitle {
+  font-size: 8.5pt; font-style: italic; color: #333;
+  margin: 1pt 0 2pt;
+}
+.item-list { list-style: none; padding: 0; margin: 1.5pt 0 0; }
+.item-list li {
+  padding-left: 13pt; text-indent: -7pt; margin-bottom: 1pt;
+  font-size: 8.5pt;
+}
+.item-list li::before {
+  content: '•'; display: inline-block; width: 7pt; font-size: 8pt;
+}
+"""
+    },
+
+    # ── Consulting Clean（麦肯锡顾问风）──────────────────────────────
+    {
+        "id": "modern",
+        "name": "咨询精英",
+        "desc": "McKinsey 偏好，左边距对齐",
+        "css": """
+@page { size: A4; margin: 0; }
+body {
+  width: 595pt; margin: 0 auto;
+  padding: 0 0 28pt 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9pt; color: #1a1a1a; line-height: 1.5;
+}
+.header-block {
+  padding: 30pt 44pt 16pt 44pt;
+  border-bottom: 2pt solid #1a3a5c;
+}
+.name {
+  font-size: 22pt; font-weight: 700; color: #1a3a5c;
+  letter-spacing: -0.3pt; margin: 0 0 5pt;
+}
+.contact { font-size: 8.5pt; color: #555; }
+.header-rule { display: none; }
+.body-wrap { padding: 0 44pt; }
+.section { margin-top: 14pt; }
+.section-title {
+  font-size: 8.5pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.8pt;
+  color: #1a3a5c;
+  display: flex; align-items: center; gap: 7pt;
+  margin-bottom: 7pt;
+}
+.section-title::before {
+  content: '';
+  display: inline-block; width: 14pt; height: 2pt;
+  background: #1a3a5c; flex-shrink: 0;
+}
+.section-title::after {
+  content: ''; flex: 1; height: 0.5pt; background: #c8d4e0;
+}
+.entry { margin-top: 5pt; }
+.entry-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-weight: 700; font-size: 9.5pt; color: #1a1a1a;
+}
+.entry-header .date {
+  font-weight: 400; font-size: 8pt; color: #666; white-space: nowrap;
+}
+.entry-subtitle {
+  font-size: 8.5pt; color: #1a3a5c; font-weight: 600;
+  margin: 1.5pt 0 2pt;
+}
+.item-list { list-style: none; padding: 0; margin: 2pt 0 0; }
+.item-list li {
+  padding-left: 12pt; text-indent: -7pt; margin-bottom: 1.5pt;
+}
+.item-list li::before {
+  content: '▸'; display: inline-block; width: 7pt;
+  font-size: 6.5pt; color: #1a3a5c;
+}
+"""
+    },
 ]
 
 
@@ -252,6 +323,7 @@ def build_html(css: str, c: dict) -> str:
         f'<div class="name">{esc(c["name"])}</div>',
         f'<div class="contact">{esc(c["contact"])}</div>',
         '</div>',
+        '<hr class="header-rule">',
         '<div class="body-wrap">',
     ]
     for sec in c["sections"]:
@@ -300,7 +372,6 @@ def render_pdf_and_thumb(html: str, pdf_path: str, thumb_path: str):
                 margin={"top": "0mm", "right": "0mm", "bottom": "0mm", "left": "0mm"},
                 print_background=True,
             )
-            # 截图作缩略图（裁取上半部分）
             page.set_viewport_size({"width": 794, "height": 1123})
             page.screenshot(path=thumb_path, clip={"x": 0, "y": 0, "width": 794, "height": 560})
             browser.close()
@@ -317,8 +388,8 @@ if __name__ == "__main__":
         thumb_path = os.path.join(OUTPUT_DIR, f"{t['id']}.png")
         render_pdf_and_thumb(html, pdf_path, thumb_path)
         meta.append({"id": t["id"], "name": t["name"], "desc": t["desc"],
-                     "pdf": f"/static/templates/{t['id']}.pdf",
-                     "thumb": f"/static/templates/{t['id']}.png"})
+                     "pdf": f"/templates/{t['id']}.pdf",
+                     "thumb": f"/templates/{t['id']}.png"})
         print(f"  ✓ {pdf_path}")
 
     with open(os.path.join(OUTPUT_DIR, "index.json"), "w", encoding="utf-8") as f:
