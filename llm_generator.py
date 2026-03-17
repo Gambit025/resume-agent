@@ -9,6 +9,17 @@ import json
 import tempfile
 import fitz
 import anthropic
+from pathlib import Path
+
+# 尝试从 .env 文件加载环境变量
+env_file = Path(__file__).parent / ".env"
+if env_file.exists():
+    with open(env_file) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                os.environ.setdefault(key.strip(), value.strip())
 
 ANTHROPIC_API_KEY = os.environ.get("API") or os.environ.get("ANTHROPIC_API_KEY") or None
 TEXT_MODEL = "claude-sonnet-4-6"
