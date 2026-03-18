@@ -625,10 +625,10 @@ def generate_resume(resume_pdf: str, template_pdf: str, output_dir: str) -> dict
 
 
 if __name__ == "__main__":
-    result = generate_resume(
-        "/Users/qinruihan/Desktop/简历agent/秦睿涵-最新.pdf",
-        "/Users/qinruihan/Desktop/RYAN/杨璇-简历.pdf",
-        "/Users/qinruihan/Desktop/简历agent/llm_test_output",
-    )
+    import sys
+    if len(sys.argv) != 4:
+        print("用法: python llm_generator.py <简历PDF> <模板PDF> <输出目录>")
+        sys.exit(1)
+    result = generate_resume(sys.argv[1], sys.argv[2], sys.argv[3])
     print(f"\nHTML: {result['html_path']}")
     print(f"PDF:  {result['pdf_path']}")
