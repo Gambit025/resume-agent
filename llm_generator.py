@@ -426,14 +426,21 @@ def structure_resume_via_llm(resume_text: str) -> dict:
 4. 只输出 JSON，不要任何解释"""
 
     def _call(messages, temperature=0.1):
-        resp = client.messages.create(
-            model=TEXT_MODEL,
-            max_tokens=4096,
-            system=system_prompt,
-            messages=messages,
-            temperature=temperature,
-        )
-        return resp.content[0].text
+        try:
+            resp = client.messages.create(
+                model=TEXT_MODEL,
+                max_tokens=4096,
+                system=system_prompt,
+                messages=messages,
+                temperature=temperature,
+            )
+            return resp.content[0].text
+        except anthropic.AuthenticationError:
+            raise RuntimeError("API Key 无效，请检查 .env 文件中的 ANTHROPIC_API_KEY")
+        except anthropic.RateLimitError:
+            raise RuntimeError("API 额度不足或请求过于频繁，请稍后再试")
+        except anthropic.APIConnectionError:
+            raise RuntimeError(f"无法连接到 API 服务（{ANTHROPIC_BASE_URL}），请检查网络或代理地址")
 
     def _parse(raw: str) -> dict:
         raw = raw.strip()
@@ -460,7 +467,10 @@ def structure_resume_via_llm(resume_text: str) -> dict:
             {"role": "assistant", "content": raw},
             {"role": "user", "content": "输出格式不正确，请只输出合法的 JSON，不要任何 markdown 包裹或额外文字。"},
         ], temperature=0.0)
-        return _parse(raw2)
+        try:
+            return _parse(raw2)
+        except (json.JSONDecodeError, ValueError) as e:
+            raise RuntimeError(f"LLM 返回格式无法解析，请重试。原始输出片段：{raw2[:200]}") from e
 
 
 # ═══════════════════════════════════════════════════════════

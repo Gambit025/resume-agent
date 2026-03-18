@@ -2,9 +2,19 @@
 """测试 Anthropic API 是否有效"""
 import os
 import anthropic
+from pathlib import Path
 
-ANTHROPIC_API_KEY = os.environ.get("API") or os.environ.get("ANTHROPIC_API_KEY") or None
-ANTHROPIC_BASE_URL = os.environ.get("ANTHROPIC_BASE_URL") or "https://apicn.unifyllm.top"
+# 加载 .env 文件
+env_file = Path(__file__).parent / ".env"
+if env_file.exists():
+    with open(env_file) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                os.environ.setdefault(key.strip(), value.strip())
+
+from llm_generator import ANTHROPIC_API_KEY, ANTHROPIC_BASE_URL, TEXT_MODEL
 
 print(f"API Key 前缀: {ANTHROPIC_API_KEY[:20] if ANTHROPIC_API_KEY else 'None'}...")
 print(f"API Key 长度: {len(ANTHROPIC_API_KEY) if ANTHROPIC_API_KEY else 0}")
@@ -12,7 +22,7 @@ print(f"Base URL: {ANTHROPIC_BASE_URL}")
 
 if not ANTHROPIC_API_KEY:
     print("\n❌ 错误: 未找到 API Key!")
-    print("请设置环境变量: export ANTHROPIC_API_KEY='your-key'")
+    print("请复制 .env.example 为 .env 并填写 ANTHROPIC_API_KEY")
     exit(1)
 
 try:
@@ -20,7 +30,7 @@ try:
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY, base_url=ANTHROPIC_BASE_URL)
 
     message = client.messages.create(
-        model="claude-sonnet-4-6",
+        model=TEXT_MODEL,
         max_tokens=100,
         messages=[{"role": "user", "content": "回复'API 测试成功'"}]
     )
