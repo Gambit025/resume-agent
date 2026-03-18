@@ -1297,8 +1297,12 @@ const PHASES = [
 function setView(view) {
   document.getElementById('idleState').style.display     = view === 'idle'     ? '' : 'none';
   document.getElementById('progressWrap').style.display  = view === 'progress' ? '' : 'none';
-  document.getElementById('resultState').style.display   = view === 'result'   ? '' : 'none';
-  document.getElementById('previewArea').style.display   = view === 'result'   ? '' : 'none';
+  const rs = document.getElementById('resultState');
+  if (view === 'result') rs.classList.add('visible');
+  else rs.classList.remove('visible');
+  const pa = document.getElementById('previewArea');
+  if (view === 'result') pa.classList.add('visible');
+  else pa.classList.remove('visible');
 }
 
 setView('idle');
